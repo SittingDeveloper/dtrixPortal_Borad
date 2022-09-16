@@ -20,10 +20,10 @@ public class InitController {
     private final dp_bulletinService service;
     @GetMapping("/")
     public String index() {
-        return "hi";
+        return "test";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/page")
     public PageResultDTO<dp_bulletinDTO, dp_bulletin> list(PageRequestDTO pageRequestDTO) {
         log.info("list........" + pageRequestDTO);
 //        model.addAttribute("result", service.getList(pageRequestDTO));

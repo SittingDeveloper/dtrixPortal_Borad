@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class dp_bulletinDTO {
-
     private Long bulletinId;
     private String title;
     private String content;

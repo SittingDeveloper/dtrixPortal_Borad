@@ -5,7 +5,8 @@ import 'moment/locale/ko'
 import './sidebar.css';
 import Pagination from "react-js-pagination";
 
-export default function Home() {
+export default function Register() {
+
 
     // Sub-Section 열고 닫는것을 관리 (Toggle 기능)
     const [isOpen, setMenu] = useState(false); // subMenu, default false
@@ -37,29 +38,9 @@ export default function Home() {
     }
 
 
-    const [totalElement, setTotalElement] = useState();
-
-
-    const [bulletin, setBulletin] = useState<any>();
-
-    useEffect(() => {
-        axios.get('/api/page')
-            .then(response => setBulletin(response.data))
-            .catch(error => console.log(error));
-        
-    }, []);
-
-    const [page, setPage] = useState(1);
-    const handlePageChange = (page : any) => {
-        setPage(page);
-        console.log(page);
-        axios.get('/api/page/' + page)
-            .then(response => setBulletin(response.data))
-            .catch(error => console.log(error));
-    }
-
     return (
         <div>
+
             <nav id="sidebar">
 
                 <div className="sidebar-header">
@@ -113,79 +94,12 @@ export default function Home() {
                     </li>
 
 
-                    {/*<li>
-                        <a href="#praticeMenu" data-toggle="collapse" aria-expanded="false"
-                           className="dropdown-toggle collapsed" onClick={() => hideMenu()}>
-                            <span className="icon"></span>ListMenu</a>
-
-                        SpringBoot에서 넘어온 값을 React로 받은 부분
-                        <ul className="collapse list-unstyled" id="praticeMenu">
-                            {subTitle.map((item) =>
-                                <li key={item.id}><a href="#">{item.subTitle}</a></li>
-                            )}
-                        </ul>
-
-                    </li>*/}
-
                 </ul>
             </nav>
 
             <div style={{paddingLeft: "400px", paddingTop: "50px", paddingRight: "70px"}}>
-                <button style={{
-                    backgroundColor: "white",
-                    color: "black",
-                    borderRadius: "10px",
-                    fontSize: "22px"
-                }}>
-                    글쓰기
-                </button>
-                <hr/>
-                <table className="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>날짜</th>
-                        <th>조회수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    {bulletin?.dtoList.map((item : any) =>
-                        <tr key={item.bulletinId}>
-                            <td>
-                                {item.bulletinId}
-                            </td>
-                            <td>
-                                {item.title}
-                            </td>
-                            <td>
-                                {item.writer}
-                            </td>
-                            <td>
-                                {/*{item.regDate}*/}
-                                {moment(item.regDate).format('YYYY년 MM월 DD일 hh시mm분')}
-                            </td>
-                            <td>
-                                {item.hits}
-                            </td>
-                        </tr>
-                    )}
-
-                    </tbody>
-                </table>
-
-                <Pagination
-                    activePage={page}
-                    totalItemsCount={301}
-                    pageRangeDisplayed={10}
-                    prevPageText={"‹"}
-                    nextPageText={"›"}
-                    onChange={handlePageChange}
-                />
-
-                <hr/>
+                <h1>  </h1>
 
             </div>
 

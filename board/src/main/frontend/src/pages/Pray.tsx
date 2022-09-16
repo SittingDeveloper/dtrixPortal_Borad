@@ -8,6 +8,8 @@ export default function Pray() {
 
     const [bulletin, setBulletin] = useState<any>();
 
+    const [totalElement, setTotalElement] = useState<any>();
+
     useEffect(() => {
         axios.get('/api/page')
             .then(response => setBulletin(response.data))
@@ -16,8 +18,9 @@ export default function Pray() {
 
     useEffect(()=> {
         if(bulletin){
-
+            setTotalElement(bulletin.totalPage);
         }
+        console.log("게시글 수 : " + totalElement);
     },[bulletin])
 
 
@@ -34,8 +37,6 @@ export default function Pray() {
     // console.log(bulletin);
     // console.log(bulletin?.totalPage);
     // console.log(bulletin?.dtoList);
-
-    console.log(bulletin);
 
     return (
         <div>
@@ -68,7 +69,7 @@ export default function Pray() {
 
                 <Pagination
                     activePage={page}
-                    totalItemsCount={301}
+                    totalItemsCount={totalElement*10}
                     pageRangeDisplayed={10}
                     prevPageText={"‹"}
                     nextPageText={"›"}

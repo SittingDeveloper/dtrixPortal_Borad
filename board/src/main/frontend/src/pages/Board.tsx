@@ -4,6 +4,7 @@ import moment from "moment";
 import 'moment/locale/ko'
 import './sidebar.css';
 import Pagination from "react-js-pagination";
+import {Link} from 'react-router-dom'
 
 export default function Home() {
 
@@ -36,27 +37,34 @@ export default function Home() {
         setMenu(() => false)
     }
 
-
-    const [totalElement, setTotalElement] = useState();
-
-
     const [bulletin, setBulletin] = useState<any>();
 
     useEffect(() => {
         axios.get('/api/page')
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
-        
+
     }, []);
 
+    const [totalElement, setTotalElement] = useState<any>();
+
+    // 게시글의 총 개수를 구함
+    useEffect(() => {
+        if (bulletin) {
+            setTotalElement(bulletin.totalPage);
+        }
+    }, [bulletin])
+
     const [page, setPage] = useState(1);
-    const handlePageChange = (page : any) => {
+    const handlePageChange = (page: any) => {
         setPage(page);
         console.log(page);
         axios.get('/api/page/' + page)
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
     }
+
+    console.log(bulletin)
 
     return (
         <div>
@@ -131,14 +139,18 @@ export default function Home() {
             </nav>
 
             <div style={{paddingLeft: "400px", paddingTop: "50px", paddingRight: "70px"}}>
-                <button style={{
-                    backgroundColor: "white",
-                    color: "black",
-                    borderRadius: "10px",
-                    fontSize: "22px"
-                }}>
-                    글쓰기
-                </button>
+
+                <Link to={"Register"}>
+                    <button style={{
+                        backgroundColor: "white",
+                        color: "black",
+                        borderRadius: "10px",
+                        fontSize: "22px"
+                    }}>
+                        글쓰기
+                    </button>
+                </Link>
+
                 <hr/>
                 <table className="table table-striped table-hover">
                     <thead>
@@ -152,7 +164,7 @@ export default function Home() {
                     </thead>
                     <tbody>
 
-                    {bulletin?.dtoList.map((item : any) =>
+                    {bulletin?.dtoList.map((item: any) =>
                         <tr key={item.bulletinId}>
                             <td>
                                 {item.bulletinId}
@@ -178,7 +190,7 @@ export default function Home() {
 
                 <Pagination
                     activePage={page}
-                    totalItemsCount={301}
+                    totalItemsCount={totalElement * 10}
                     pageRangeDisplayed={10}
                     prevPageText={"‹"}
                     nextPageText={"›"}

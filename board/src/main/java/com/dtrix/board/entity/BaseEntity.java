@@ -20,7 +20,6 @@ public class BaseEntity {
     @Column(name = "regdate", updatable = false) // 객체 DB에 반영할 때 regdate Column 변경 X
     private LocalDateTime regDate;
 
-
     @LastModifiedDate
     @Column(name = "moddate")
     private LocalDateTime modDate;

@@ -10,6 +10,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequiredArgsConstructor
 @Log4j2
@@ -32,6 +34,7 @@ public class InitController {
     }
 
     @GetMapping("/page/{getPage}")
+    @CrossOrigin(origins = "*")
     public PageResultDTO<dp_bulletinDTO, dp_bulletin> searchList(PageRequestDTO pageRequestDTO, @PathVariable int getPage) {
 
         log.info("list........" + pageRequestDTO);
@@ -47,17 +50,22 @@ public class InitController {
     }
 
     @PostMapping("/register")
-    public String registerPost(dp_bulletinDTO dto, RedirectAttributes redirectAttributes) {
+    public void registerPost(dp_bulletinDTO dto) {
 
         log.info("dto ...." + dto);
 
         // 새로 추가된 Entity 번호
         Long bulletinId = service.register(dto);
-
-        redirectAttributes.addFlashAttribute("msg", bulletinId);
-
-        return "redirect:/api/page";
     }
 
+    /*@PostMapping("/register")
+    public void registerPost(String title, String content, String writer) {
+
+        log.info("로그를 표기합니다");
+        log.info("제목 : " + title);
+        log.info("내용 : " + content);
+        log.info("작성자 : " + writer);
+
+    }*/
 }
 

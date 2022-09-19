@@ -1,19 +1,39 @@
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import axios from "axios";
-import moment from "moment";
 import 'moment/locale/ko'
-
-import Pagination from "react-js-pagination";
 import {Editor} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor.css'
+import {useNavigate} from "react-router-dom";
 
 export default function Register() {
+
+    let navigatge = useNavigate();
 
     const editorRef = useRef<any>();
     
     const handleRegisterButton = () => {
-        console.log("입력된 데이터입니다 ↓ \n" + editorRef.current?.getInstance().getHTML());
+
+        console.log("저장버튼을 클릭")
+        setContent(editorRef.current?.getInstance().getHTML());
+
+        console.log("제목 : " + title);
+        console.log("내용 : " + editorRef.current?.getInstance().getHTML());
+        console.log("작성자 : " + writer)
+
+        const params = new URLSearchParams();
+        params.append('title', title);
+        params.append('content', editorRef.current.getInstance().getHTML());
+        params.append('writer', writer);
+        params.append('hits', "0");
+
+        axios.post("api/register", params);
+
+        navigatge("/");
     }
+
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [writer, setWriter] = useState("");
 
     return (
         <div>
@@ -81,7 +101,8 @@ export default function Register() {
                     <textarea typeof={"title"}
                               placeholder={"제목을 입력하세요"}
                               style={{width: "80%", borderRadius: "10px", fontSize: "20px"}}
-                              name={"title"}>
+                              name={"title"}
+                              onChange={e => setTitle(e.target.value)}>
                     </textarea>
 
                     <br/>
@@ -105,7 +126,8 @@ export default function Register() {
                     <textarea typeof={"title"}
                               placeholder={"작성자 입력"}
                               style={{width: "10%", borderRadius: "10px", fontSize: "20px", textAlign: "center"}}
-                              name={"writer"}>
+                              name={"writer"}
+                              onChange={e => setWriter(e.target.value)}>
                     </textarea>
 
                     <button type={"submit"} className={"doubleButton"}

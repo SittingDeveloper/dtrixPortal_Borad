@@ -4,9 +4,11 @@ import moment from "moment";
 import 'moment/locale/ko'
 import './sidebar.css';
 import Pagination from "react-js-pagination";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 export default function Home() {
+
+    const navigate = useNavigate();
 
     // Sub-Section 열고 닫는것을 관리 (Toggle 기능)
     const [isOpen, setMenu] = useState(false); // subMenu, default false
@@ -64,7 +66,10 @@ export default function Home() {
             .catch(error => console.log(error));
     }
 
-    console.log(bulletin)
+    const searchPage = (item:any) => {
+        const {bulletinId} = item;
+        navigate(`/pageDetail/${bulletinId}`)
+    }
 
     return (
         <div>
@@ -164,8 +169,9 @@ export default function Home() {
                     </thead>
                     <tbody>
 
-                    {bulletin?.dtoList.map((item: any) =>
-                        <tr key={item.bulletinId}>
+                    {bulletin?.dtoList && bulletin?.dtoList.map((item: any) => {
+                        return (
+                        <tr key={item?.bulletinId} onClick={() => searchPage(item)} style={{cursor:"pointer"}}>
                             <td>
                                 {item.bulletinId}
                             </td>
@@ -176,15 +182,14 @@ export default function Home() {
                                 {item.writer}
                             </td>
                             <td>
-                                {/*{item.regDate}*/}
                                 {moment(item.regDate).format('YYYY년 MM월 DD일 hh시mm분')}
                             </td>
                             <td>
                                 {item.hits}
                             </td>
                         </tr>
-                    )}
-
+                    )
+                    })}
                     </tbody>
                 </table>
 

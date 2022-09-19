@@ -7,8 +7,12 @@ import com.dtrix.board.entity.dp_bulletin;
 
 public interface dp_bulletinService {
 
+
+    // 등록 (Create)
     Long register(dp_bulletinDTO dto);
 
+    // 조회 (Read)
+    dp_bulletinDTO read(Long bulletinId);
     PageResultDTO<dp_bulletinDTO, dp_bulletin> getList(PageRequestDTO requestDTO);
 
     // 인터페이스의 실제 내용을 가지는 코드, 인터페이스 -> 추상클래스 -> 구현클래스에서 추상클래스 생략을 가능하게 해준다.

@@ -8,9 +8,6 @@ import com.dtrix.board.service.dp_bulletinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,17 +52,17 @@ public class InitController {
         log.info("dto ...." + dto);
 
         // 새로 추가된 Entity 번호
-        Long bulletinId = service.register(dto);
+        service.register(dto);
     }
 
-    /*@PostMapping("/register")
-    public void registerPost(String title, String content, String writer) {
+    @GetMapping("/pageDetail/{bulletinId}")
+    public dp_bulletinDTO read(@PathVariable Long bulletinId) {
 
-        log.info("로그를 표기합니다");
-        log.info("제목 : " + title);
-        log.info("내용 : " + content);
-        log.info("작성자 : " + writer);
+        log.info("bulletinId : " + bulletinId);
 
-    }*/
+//        System.out.println("WhenService : " + service.read(bulletinId));
+        return service.read(bulletinId);
+    }
+
 }
 

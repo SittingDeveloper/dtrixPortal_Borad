@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -34,6 +35,16 @@ public class dp_bulletinServiceImpl implements dp_bulletinService {
         repository.save(entity);
 
         return entity.getBulletinId();
+    }
+
+    @Override
+    public dp_bulletinDTO read(Long bulletinId) {
+
+        Optional<dp_bulletin> result = repository.findById(bulletinId);
+
+        System.out.println("backend bulletinId : " + bulletinId);
+        return result.isPresent() ? entityToDto(result.get()) : null;
+
     }
 
     @Override

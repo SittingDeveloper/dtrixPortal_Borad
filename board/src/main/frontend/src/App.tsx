@@ -6,6 +6,7 @@ import Board from './pages/Board';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Pray from "./pages/Pray";
 import Register from "./pages/Register";
+import PageDetail from "./pages/PageDetail";
 
 function App() {
     return (
@@ -17,6 +18,11 @@ function App() {
                     <Route path="/practice" element={<Pray/>}/>
 
                     <Route path="/register" element={<Register/>}/>
+
+                    <Route path="/pageDetail" element={<PageDetail/>}/>
+
+                    <Route path="/pageDetail/:id" element={<PageDetail/>}/>
+
                 </>
             </Routes>
         </BrowserRouter>

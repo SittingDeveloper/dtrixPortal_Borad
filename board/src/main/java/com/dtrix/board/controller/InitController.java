@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/api")
+@RequestMapping("/board")
 public class InitController {
 
     private final dp_bulletinService service;
@@ -22,7 +22,7 @@ public class InitController {
         return "test";
     }
 
-    @GetMapping("/page")
+    @GetMapping("/page") // Pagination 처리된 페이지 리스트
     public PageResultDTO<dp_bulletinDTO, dp_bulletin> list(PageRequestDTO pageRequestDTO) {
 
         log.info("list........" + pageRequestDTO);
@@ -30,7 +30,7 @@ public class InitController {
         return service.getList(pageRequestDTO);
     }
 
-    @GetMapping("/page/{getPage}")
+    @GetMapping("/page/{getPage}") // Pagination 처리된 페이지 중 몇 번째 페이지인가
     @CrossOrigin(origins = "*")
     public PageResultDTO<dp_bulletinDTO, dp_bulletin> searchList(PageRequestDTO pageRequestDTO, @PathVariable int getPage) {
 
@@ -40,13 +40,7 @@ public class InitController {
         log.info("getPageList..... " + pageRequestDTO);
         return service.getList(pageRequestDTO);
     }
-
-    @GetMapping("/register")
-    public void register() {
-        log.info("register get ... ");
-    }
-
-    @PostMapping("/register")
+    @PostMapping("/register") // 게시글 등록
     public void registerPost(dp_bulletinDTO dto) {
 
         log.info("dto ...." + dto);
@@ -55,8 +49,8 @@ public class InitController {
         service.register(dto);
     }
 
-    //, "/modify/{bulletinId}"
-    @GetMapping("/pageDetail/{bulletinId}")
+    // pageDetail, 특정 게시글의 상세 정보
+    @GetMapping("/pageDetail/{bulletinId}") //
     public dp_bulletinDTO read(@PathVariable Long bulletinId) {
 
         log.info("bulletinId : " + bulletinId);

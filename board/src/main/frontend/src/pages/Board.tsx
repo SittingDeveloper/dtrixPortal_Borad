@@ -10,62 +10,33 @@ export default function Home() {
 
     const navigate = useNavigate();
 
-    // Sub-Section 열고 닫는것을 관리 (Toggle 기능)
-    const [isOpen, setMenu] = useState(false); // subMenu, default false
-
-    // subTitle 재클릭시 닫는 기능
-    const [toggle, setToggle] = useState(0);
-
-    // Sub-Section 개별 실행 state
-    const [flagNumber, setFlagNumber] = useState("0");
-
-    // Sub-Section 재클릭시 닫는 기능을 수행하는 Function
-    const toggleMenu = (checked_id: any) => {
-        if (toggle == checked_id) {
-            setToggle(checked_id);
-            setMenu(isOpen => !isOpen);
-        } else {
-            setMenu(() => false);
-            console.log("checked_id : " + checked_id)
-            setFlagNumber(checked_id);
-            setToggle(checked_id);
-            setMenu(isOpen => !isOpen); // on,off Boolean 개념
-        }
-    };
-
-
-    // Sub-Section 강제로 숨기는 기능
-    const hideMenu = () => {
-        setMenu(() => false)
-    }
-
+    // Pagination 게시글 조회
     const [bulletin, setBulletin] = useState<any>();
-
     useEffect(() => {
-        axios.get('/api/page')
+        axios.get('/board/page')
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
-
     }, []);
 
+    // 게시글의 총 개수
     const [totalElement, setTotalElement] = useState<any>();
-
-    // 게시글의 총 개수를 구함
     useEffect(() => {
         if (bulletin) {
             setTotalElement(bulletin.totalPage);
         }
     }, [bulletin])
 
+    // 어느 페이지로 이동할 것인지
     const [page, setPage] = useState(1);
     const handlePageChange = (page: any) => {
         setPage(page);
         console.log(page);
-        axios.get('/api/page/' + page)
+        axios.get('/board/page/' + page)
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
     }
 
+    // 게시글 상세 페이지로 이동
     const searchPage = (item: any) => {
         const {bulletinId} = item;
         navigate(`/pageDetail/${bulletinId}`)
@@ -99,7 +70,7 @@ export default function Home() {
 
                     <li>
                         <a href="#schoolSubmenu" data-toggle="collapse" aria-expanded="false"
-                           className="dropdown-toggle collapsed" onClick={() => hideMenu()}>
+                           className="dropdown-toggle collapsed" >
                             <span className="icon"><i className="fa-solid fa-list"></i></span>
                             Board_1
                         </a>
@@ -113,7 +84,7 @@ export default function Home() {
 
                     <li>
                         <a href="#localSubmenu" data-toggle="collapse" aria-expanded="false"
-                           className="dropdown-toggle collapsed" onClick={() => hideMenu()}>
+                           className="dropdown-toggle collapsed">
                             <span className="icon"><i className="fa-solid fa-list"></i></span>
                             Board_2
                         </a>

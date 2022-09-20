@@ -14,13 +14,12 @@ export default function Modify() {
     // 표기할 내용을 list로 가져옴
     const [list, setList] = useState<any>([]);
     useEffect(() => {
-        axios.get('/api/pageDetail/' + params.id)
+        axios.get('/board/pageDetail/' + params.id)
             .then(response => setList(response.data))
             .catch(error => console.log(error));
     }, [])
 
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
 
     const editorRef = useRef<any>();
 
@@ -33,7 +32,6 @@ export default function Modify() {
     const handleRegisterButton = () => {
 
         console.log("수정버튼을 클릭")
-        setContent(editorRef.current?.getInstance().getHTML());
 
         console.log("제목 : " + title);
         console.log("내용 : " + editorRef.current?.getInstance().getHTML());
@@ -43,7 +41,7 @@ export default function Modify() {
         modifyParams.append('title', title);
         modifyParams.append('content', editorRef.current.getInstance().getHTML());
 
-        axios.post("/api/modify", modifyParams);
+        axios.post("/board/modify", modifyParams);
 
         navigatge("/");
     }

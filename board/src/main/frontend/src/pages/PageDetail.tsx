@@ -22,7 +22,7 @@ export default function PageDetail() {
     const [list, setList] = useState<any>([]);
 
     useEffect(() => {
-        axios.get('/api/pageDetail/' + params.id)
+        axios.get('/board/pageDetail/' + params.id)
             .then(response => setList(response.data))
             .catch(error => console.log(error));
     }, [])
@@ -41,7 +41,7 @@ export default function PageDetail() {
         const removeParams = new URLSearchParams();
         removeParams.append('bulletinId', list.bulletinId);
 
-        axios.post("/api/remove", removeParams);
+        axios.post("/board/remove", removeParams);
 
         navigate("/");
     }

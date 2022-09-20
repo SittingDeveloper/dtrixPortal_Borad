@@ -16,7 +16,7 @@ export default function Pray() {
 
 
     useEffect(() => {
-        axios.get('/api/page')
+        axios.get('/board/page')
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
     }, []);
@@ -37,7 +37,7 @@ export default function Pray() {
     const handlePageChange = (page : any) => {
         setPage(page);
         console.log(page);
-        axios.get('/api/page/' + page)
+        axios.get('/board/page/' + page)
             .then(response => setBulletin(response.data))
             .catch(error => console.log(error));
     }

@@ -1,32 +1,36 @@
-import {lazy, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import './sidebar.css';
 import './pages.css'
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import moment from "moment";
 
 export default function PageDetail() {
 
-
     const navigate = useNavigate();
 
+    // 이전 페이지에서 가져온 parameter 이용
+    const params = useParams<any>();
+    console.log("파라미터 : " + params.id);
+
+    // 수정페이지로 이동
     const openModify = () => {
         navigate(`/Modify/${params.id}`);
     }
 
-    const params = useParams<any>();
-    console.log("파라미터 : " + params.id);
-
-    const [list, setList] = useState<any>([]);
-
+    // 몇번째 게시글인지 id를 읽어 상세정보 표기
     useEffect(() => {
         axios.get('/board/pageDetail/' + params.id)
             .then(response => setList(response.data))
             .catch(error => console.log(error));
     }, [])
 
+    // 게시글 상세 데이터 리스트
+    const [list, setList] = useState<any>([]);
+
+    // 게시글 내용
     const [content, setContent] = useState<string>('');
     useEffect(() => {
         if (list.content) {
@@ -34,7 +38,9 @@ export default function PageDetail() {
         }
     }, [list.content])
 
+    // 삭제 버튼 Function
     const handleRemoveButton = () => {
+
         console.log("삭제버튼 클릭");
         console.log("삭제되는 bulletinId : " + list.bulletinId)
 

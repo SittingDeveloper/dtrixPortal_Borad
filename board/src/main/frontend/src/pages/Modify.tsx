@@ -3,9 +3,10 @@ import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Editor} from "@toast-ui/react-editor";
 
+// 수정
 export default function Modify() {
 
-    let navigatge = useNavigate();
+    let navigate = useNavigate();
 
     // 이전 페이지에서 bulletinId 가져옴. 보안 Issue 존재. url에 표기하지않고 id값 가져오는 방법 필요 ..
     const params = useParams();
@@ -19,20 +20,18 @@ export default function Modify() {
             .catch(error => console.log(error));
     }, [])
 
+    // 게시글 Title
     const [title, setTitle] = useState("");
-
-    const editorRef = useRef<any>();
-
     useEffect(() => {
         if (list.title) {
             setTitle(list.title);
         }
     }, [list.title])
 
+    // 수정 Button 클릭 시 일어나는 Function
     const handleRegisterButton = () => {
 
         console.log("수정버튼을 클릭")
-
         console.log("제목 : " + title);
         console.log("내용 : " + editorRef.current?.getInstance().getHTML());
 
@@ -43,8 +42,11 @@ export default function Modify() {
 
         axios.post("/board/modify", modifyParams);
 
-        navigatge("/");
+        navigate("/");
     }
+
+    // toast ui 게시글 내용 조회를 위해 필요한 state
+    const editorRef = useRef<any>();
 
     return (
         <div>

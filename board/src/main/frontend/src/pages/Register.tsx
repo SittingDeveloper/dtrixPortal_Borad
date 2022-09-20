@@ -9,8 +9,14 @@ export default function Register() {
 
     let navigatge = useNavigate();
 
+    // toast ui editor 내용(content)를 가져오기 위해 필요한 state
     const editorRef = useRef<any>();
+
+    // 게시글 제목, 작성자. 내용은 handleRegisterButton 에서 editorRef 를 통해 저장
+    const [title, setTitle] = useState("");
+    const [writer, setWriter] = useState("");
     
+    // 등록버튼 Function
     const handleRegisterButton = () => {
 
         console.log("저장버튼을 클릭")
@@ -29,9 +35,6 @@ export default function Register() {
 
         navigatge("/");
     }
-
-    const [title, setTitle] = useState("");
-    const [writer, setWriter] = useState("");
 
     return (
         <div>

@@ -66,7 +66,7 @@ export default function Home() {
             .catch(error => console.log(error));
     }
 
-    const searchPage = (item:any) => {
+    const searchPage = (item: any) => {
         const {bulletinId} = item;
         navigate(`/pageDetail/${bulletinId}`)
     }
@@ -171,24 +171,24 @@ export default function Home() {
 
                     {bulletin?.dtoList && bulletin?.dtoList.map((item: any) => {
                         return (
-                        <tr key={item?.bulletinId} onClick={() => searchPage(item)} style={{cursor:"pointer"}}>
-                            <td>
-                                {item.bulletinId}
-                            </td>
-                            <td>
-                                {item.title}
-                            </td>
-                            <td>
-                                {item.writer}
-                            </td>
-                            <td>
-                                {moment(item.regDate).format('YYYY년 MM월 DD일 hh시mm분')}
-                            </td>
-                            <td>
-                                {item.hits}
-                            </td>
-                        </tr>
-                    )
+                            <tr key={item?.bulletinId} onClick={() => searchPage(item)} style={{cursor: "pointer"}}>
+                                <td>
+                                    {item.bulletinId}
+                                </td>
+                                <td>
+                                    {item.title}
+                                </td>
+                                <td>
+                                    {item.writer}
+                                </td>
+                                <td>
+                                    {moment(item.regDate).format('YYYY년 MM월 DD일 HH시mm분')}
+                                </td>
+                                <td>
+                                    {item.hits}
+                                </td>
+                            </tr>
+                        )
                     })}
                     </tbody>
                 </table>

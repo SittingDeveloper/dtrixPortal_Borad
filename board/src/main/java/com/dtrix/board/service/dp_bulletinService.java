@@ -8,6 +8,10 @@ import com.dtrix.board.entity.dp_bulletin;
 public interface dp_bulletinService {
 
 
+    void remove(Long bulletinId);
+
+    void modify(dp_bulletinDTO dto);
+
     // 등록 (Create)
     Long register(dp_bulletinDTO dto);
 

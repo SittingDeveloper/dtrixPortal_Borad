@@ -55,13 +55,27 @@ public class InitController {
         service.register(dto);
     }
 
+    //, "/modify/{bulletinId}"
     @GetMapping("/pageDetail/{bulletinId}")
     public dp_bulletinDTO read(@PathVariable Long bulletinId) {
 
         log.info("bulletinId : " + bulletinId);
-
-//        System.out.println("WhenService : " + service.read(bulletinId));
         return service.read(bulletinId);
+    }
+
+    @PostMapping("/remove") // 삭제
+    public void remove(long bulletinId) {
+        log.info("bulletinId : " + bulletinId);
+
+        service.remove(bulletinId);
+    }
+
+    @PostMapping("/modify") //수정
+    public void modify(dp_bulletinDTO dto) {
+        log.info("post modify.............................\n");
+        log.info("dto : " + dto);
+
+        service.modify(dto);
     }
 
 }

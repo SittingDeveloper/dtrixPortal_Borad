@@ -7,6 +7,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Pray from "./pages/Pray";
 import Register from "./pages/Register";
 import PageDetail from "./pages/PageDetail";
+import Modify from "./pages/Modify";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
 
                     <Route path="/pageDetail/:id" element={<PageDetail/>}/>
 
+                    <Route path="/modify/:id" element={<Modify/>}/>
                 </>
             </Routes>
         </BrowserRouter>

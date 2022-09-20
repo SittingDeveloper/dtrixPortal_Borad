@@ -2,13 +2,21 @@ import {lazy, useEffect, useState} from "react";
 import axios from "axios";
 import './sidebar.css';
 import './pages.css'
-import {useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import moment from "moment";
 
 export default function PageDetail() {
 
-    const params = useParams();
+
+    const navigate = useNavigate();
+
+    const openModify = () => {
+        navigate(`/Modify/${params.id}`);
+    }
+
+    const params = useParams<any>();
     console.log("파라미터 : " + params.id);
 
     const [list, setList] = useState<any>([]);
@@ -19,18 +27,24 @@ export default function PageDetail() {
             .catch(error => console.log(error));
     }, [])
 
+    const [content, setContent] = useState<string>('');
     useEffect(() => {
-        if (list) {
-            console.log("받아온 값 : " + list?.title);
-        }
-    })
-
-    const [content,setContent] = useState<string>('');
-    useEffect(()=> {
-        if(list.content) {
+        if (list.content) {
             setContent(list.content);
         }
-    },[list.content])
+    }, [list.content])
+
+    const handleRemoveButton = () => {
+        console.log("삭제버튼 클릭");
+        console.log("삭제되는 bulletinId : " + list.bulletinId)
+
+        const removeParams = new URLSearchParams();
+        removeParams.append('bulletinId', list.bulletinId);
+
+        axios.post("/api/remove", removeParams);
+
+        navigate("/");
+    }
 
     return (
         <div>
@@ -107,21 +121,38 @@ export default function PageDetail() {
                 <h6>
                     조회수 {list.hits}
                 </h6>
+                <h6>
+                    최종수정일 {moment(list.modDate).format('YYYY년 MM월 DD일 HH시mm분')}
+                </h6>
                 <h3>
                     제목 : {list.title}
                 </h3>
 
                 <hr/>
-                    {/*<ViewerComponent content={list?.content} />*/}
-                    {
-                        content && <Viewer initialValue={content}/>
-                    }
-                    {/*<Viewer initialValue={"<p>asd</p>"}/>*/}
+                {content && <Viewer initialValue={content}/>}
                 <hr/>
 
                 <h3>
                     작성자 : {list.writer}
                 </h3>
+
+                <button onClick={() => openModify()} style={{
+                    backgroundColor: "white",
+                    color: "black",
+                    borderRadius: "10px",
+                    fontSize: "22px"
+                }}>
+                    수정
+                </button>
+
+                <button onClick={() => handleRemoveButton()} style={{
+                    backgroundColor: "white",
+                    color: "black",
+                    borderRadius: "10px",
+                    fontSize: "22px"
+                }}>
+                    삭제
+                </button>
 
             </div>
 

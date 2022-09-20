@@ -22,6 +22,26 @@ public class dp_bulletinServiceImpl implements dp_bulletinService {
 
     private final dp_bulletinRepository repository;
 
+    @Override //삭제
+    public void remove(Long bulletinId) {
+        repository.deleteById(bulletinId);
+    }
+
+    @Override // 업데이트
+    public void modify(dp_bulletinDTO dto) {
+        Optional<dp_bulletin> result = repository.findById(dto.getBulletinId());
+
+        if (result.isPresent()) {
+            dp_bulletin entity = result.get();
+
+            entity.changeTitle(dto.getTitle());
+            entity.changeContent(dto.getContent());
+
+            repository.save(entity);
+        }
+
+    }
+
     @Override
     public Long register(dp_bulletinDTO dto) {
 

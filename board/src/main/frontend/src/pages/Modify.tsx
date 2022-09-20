@@ -1,39 +1,52 @@
-import {useRef, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import 'moment/locale/ko'
 import {Editor} from "@toast-ui/react-editor";
-import '@toast-ui/editor/dist/toastui-editor.css'
-import {useNavigate} from "react-router-dom";
 
-export default function Register() {
+export default function Modify() {
 
     let navigatge = useNavigate();
 
+    // 이전 페이지에서 bulletinId 가져옴. 보안 Issue 존재. url에 표기하지않고 id값 가져오는 방법 필요 ..
+    const params = useParams();
+    console.log("파라미터 : " +params.id);
+
+    // 표기할 내용을 list로 가져옴
+    const [list, setList] = useState<any>([]);
+    useEffect(() => {
+        axios.get('/api/pageDetail/' + params.id)
+            .then(response => setList(response.data))
+            .catch(error => console.log(error));
+    }, [])
+
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
     const editorRef = useRef<any>();
-    
+
+    useEffect(() => {
+        if (list.title) {
+            setTitle(list.title);
+        }
+    }, [list.title])
+
     const handleRegisterButton = () => {
 
-        console.log("저장버튼을 클릭")
+        console.log("수정버튼을 클릭")
         setContent(editorRef.current?.getInstance().getHTML());
 
         console.log("제목 : " + title);
         console.log("내용 : " + editorRef.current?.getInstance().getHTML());
-        console.log("작성자 : " + writer)
 
-        const params = new URLSearchParams();
-        params.append('title', title);
-        params.append('content', editorRef.current.getInstance().getHTML());
-        params.append('writer', writer);
-        params.append('hits', "0");
+        const modifyParams = new URLSearchParams();
+        modifyParams.append('bulletinId', list?.bulletinId)
+        modifyParams.append('title', title);
+        modifyParams.append('content', editorRef.current.getInstance().getHTML());
 
-        axios.post("api/register", params);
+        axios.post("/api/modify", modifyParams);
 
         navigatge("/");
     }
-
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [writer, setWriter] = useState("");
 
     return (
         <div>
@@ -53,7 +66,7 @@ export default function Register() {
                             삭제
                         </button>
                     </div>
-                    <a href="./">
+                    <a href="../">
                         <h1>
                             Portal Board
                         </h1>
@@ -102,14 +115,16 @@ export default function Register() {
                               placeholder={"제목을 입력하세요"}
                               style={{width: "80%", borderRadius: "10px", fontSize: "20px"}}
                               name={"title"}
-                              onChange={e => setTitle(e.target.value)}>
+                              onChange={e => setTitle(e.target.value)}
+                              defaultValue={list.title}>
                     </textarea>
 
                     <br/>
                     <hr/>
                     <br/>
 
-                    <Editor
+                    {list.content &&
+                        <Editor
                         previewStyle={"vertical"}
                         height={"700px"}
                         initialEditType={"wysiwyg"}
@@ -117,24 +132,25 @@ export default function Register() {
                         // onChange={textOnchange}
                         ref={editorRef}
                         hideModeSwitch={true}
-                        initialValue={" "}
-                    />
+                        initialValue={list.content}/>
+                    }
 
                     <br/>
                     <hr/>
                     <br/>
 
                     <textarea typeof={"title"}
-                              placeholder={"작성자 입력"}
-                              style={{width: "10%", borderRadius: "10px", fontSize: "20px", textAlign: "center"}}
+                              style={{width: "10%", borderRadius: "10px", fontSize: "20px", textAlign: "center", backgroundColor:"whitesmoke"}}
                               name={"writer"}
-                              onChange={e => setWriter(e.target.value)}>
+                              defaultValue={list.writer}
+                              readOnly={true}
+                    >
                     </textarea>
 
                     <button type={"submit"} className={"doubleButton"}
                             style={{backgroundColor: "whitesmoke", color: "black"}}
                             onClick={handleRegisterButton}>
-                        저장
+                        수정
                     </button>
 
                 </div>

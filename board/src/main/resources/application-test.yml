@@ -1,0 +1,22 @@
+server:
+  port: 20603
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.0.131:5432/dtrixPortal?currentSchema=public
+    username: clamos
+    password: keystone42086
+  jpa:
+    show-sql: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.hostname}:${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://192.168.0.48:20600/eureka/
+

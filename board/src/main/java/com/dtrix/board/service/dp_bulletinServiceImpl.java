@@ -76,7 +76,6 @@ public class dp_bulletinServiceImpl implements dp_bulletinService {
         Function<dp_bulletin, dp_bulletinDTO> fn = (entity -> entityToDto(entity));
 
         return new PageResultDTO<>(result, fn);
-
     }
 
 
